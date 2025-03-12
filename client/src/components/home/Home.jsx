@@ -1,8 +1,12 @@
 import React from 'react'; 
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 
 function Home() {
   return (
-    <h1>Home</h1>
+    <div id="home">
+    <Card variant="outlined">card</Card>
+    </div>
   );
 }
 
