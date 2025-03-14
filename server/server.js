@@ -5,9 +5,13 @@ const PORT = process.env.PORT || 3000;
 const axios = require('axios');
 const cheerio = require('cheerio');
 const cors = require('cors');
+
+const scrapeTroops = require("./utils/scrape_troop");
+const TroopDat = require("./temp/temp")
 const CLASH_WIKI = "https://clashofclans.fandom.com"
 // allow frontend request
 app.use(cors());
+
 
 // Define a route
 app.get('/th-info', async (req, res) => {
@@ -62,6 +66,13 @@ app.get("/src/:type", async(req, res)=>{
     catch (error) {
         res.status(500).json({error:error.message})
     }
+});
+
+app.get("/troops/:name",(req, res)=>{
+    const troopName = req.params.name;
+    const army = TroopDat.find(obj => obj.name === troopName)
+    if(army == undefined) {res.status(400).json({error: `wrong Troopname ${troopName}`}); return;}
+    scrapeTroops(army, req, res, CLASH_WIKI)
 });
 
 // Start the server
